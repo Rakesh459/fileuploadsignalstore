@@ -1,0 +1,11 @@
+<p>file-upload-container works!</p>
+<form [formGroup]="uploadForm">
+  <input type="file" (change)="onFileSelected($event)" multiple />
+  <button (click)="fileUpload()">Upload Files</button>
+</form>
+
+<div *ngFor="let file of store.files(); let i = index">
+  <p>File {{ i + 1 }}: {{ file?.file?.name }} - {{ file?.progress }}%</p>
+</div>
+
+<p>test</p>
