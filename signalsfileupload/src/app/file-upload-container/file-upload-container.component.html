@@ -5,7 +5,11 @@
 </form>
 
 <div *ngFor="let file of store.files(); let i = index">
-  <p>File {{ i + 1 }}: {{ file?.file?.name }} - {{ file?.progress }}%</p>
+  <p>
+    File {{ file.id }}: {{ file?.file?.name }} {{ file?.uploadedName }} - {{ file?.progress }}%
+    <button *ngIf="file.progress > 0 && file.progress < 100" 
+            (click)="cancelUpload(file.id)">
+      Cancel
+    </button>
+  </p>
 </div>
-
-<p>test</p>
