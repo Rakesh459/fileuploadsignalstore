@@ -4,4 +4,5 @@ export class FileUpload {
     progress!: number;
     uploadedName?: string;
     originalName?: string;
+    status!: string;
 }

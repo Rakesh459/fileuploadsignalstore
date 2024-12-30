@@ -4,12 +4,19 @@
   <button (click)="fileUpload()">Upload Files</button>
 </form>
 
-<div *ngFor="let file of store.files(); let i = index; trackBy: trackById">
+
+
+<div >
+  @for (file of store.files(); track $index) {
   <p>
-    File {{ file.id }}: {{ file?.file?.name }} {{ file?.uploadedName }} - {{ file?.progress }}%
-    <button *ngIf="(file.progress > 0 && file.progress < 100)"
-            (click)="cancelUpload(file.id)">
+    File {{ file.id }}: {{ file?.file?.name }} {{ file?.uploadedName }} {{ file.status}}- {{ file?.progress }}%
+    
+    @if(file.progress > 0 && file.progress < 100){
+    <button (click)="cancelUpload(file.id)">
       Cancel
     </button>
+  }
+  
   </p>
+}
 </div>

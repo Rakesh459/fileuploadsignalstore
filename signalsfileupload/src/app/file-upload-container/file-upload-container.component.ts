@@ -40,7 +40,8 @@ export class FileUploadContainerComponent {
     const fileUploads = files.map((file, index) => ({
       id: index + 1,
       file: file,
-      progress: 0
+      progress: 0,
+      status: 'notstarted'
     }));
 
     this.store.uploadFilesv2(fileUploads);

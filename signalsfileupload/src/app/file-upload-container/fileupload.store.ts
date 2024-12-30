@@ -30,7 +30,7 @@ export const FileUploadStore = signalStore(
       
       patchState(store, {
         files: store.files().map(f => 
-          f.id === fileId ? { ...f, progress: 0 } : f
+          f.id === fileId ? { ...f, progress: 0 , status: 'canceled'} : f
         )
       });
     },
@@ -38,10 +38,14 @@ export const FileUploadStore = signalStore(
     uploadFilesv2: rxMethod<FileUpload[]>(
       pipe(
         tap((files) => {
-          files.forEach(file => service.addCancelSignal(file.id))          
+          files.forEach(file => 
+            {
+              service.addCancelSignal(file.id);
+              file.status = "started";
+            })          
           patchState(store, { 
             files, 
-            isLoading: true
+            isLoading: true,
           });
         }),
         mergeMap(files => 
@@ -63,8 +67,9 @@ export const FileUploadStore = signalStore(
                         f.id === file.id ? { 
                           ...f, 
                           originalName: event.body.originalName, 
-                          uploadedName: event.body.fileName 
-                        } : f
+                          uploadedName: event.body.fileName ,
+                          status: 'completed'
+                        } : f 
                       )
                     }));
                   }
