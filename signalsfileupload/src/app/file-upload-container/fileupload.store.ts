@@ -48,7 +48,6 @@ export const FileUploadStore = signalStore(
           from(files).pipe(
             mergeMap(file => 
               service.upload(file).pipe(
-                takeUntil(service.getCancelSignal(file.id) || EMPTY),
                 tap((event: any) => {
                   if (event.type === HttpEventType.UploadProgress) {
                     const progress = Math.round(100 * event.loaded / (event.total ?? 1));
@@ -70,6 +69,7 @@ export const FileUploadStore = signalStore(
                     }));
                   }
                 }),
+                takeUntil(service.getCancelSignal(file.id) || EMPTY),
                 catchError(error => {
                   console.error('Upload failed:', error);
                   return EMPTY;

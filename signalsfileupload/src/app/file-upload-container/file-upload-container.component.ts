@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadStore } from './fileupload.store';
 import { FileUpload } from './file-upload';
@@ -13,10 +13,12 @@ import { BehaviorSubject, from, of, Subject, switchMap } from 'rxjs';
   templateUrl: './file-upload-container.component.html',
   standalone: true,
   styleUrl: './file-upload-container.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileUploadContainerComponent {
   uploadForm: FormGroup;
   store = inject(FileUploadStore);
+
 
   constructor(private fb: FormBuilder) {
     this.uploadForm = this.fb.group({
@@ -47,5 +49,9 @@ export class FileUploadContainerComponent {
   cancelUpload(fileId: number) {
     console.log('cancelled', fileId);
     this.store.cancelUpload(fileId);
+  }
+
+  trackById(index: number, file: FileUpload){
+    return file.id;
   }
 }

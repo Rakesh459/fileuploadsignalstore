@@ -17,7 +17,7 @@ namespace fileupload.Controllers
 
         [HttpPost]
         [Route("/upload")]
-        public async Task<IActionResult> FileUpload(IFormFile file)
+        public async Task<IActionResult> FileUpload(IFormFile file, CancellationToken cancellationToken)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace fileupload.Controllers
                 // Save the file
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await file.CopyToAsync(stream, cancellationToken);
                 }
 
                 _logger.LogInformation($"File {fileName} uploaded successfully");
